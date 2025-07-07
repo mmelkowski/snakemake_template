@@ -1,0 +1,6 @@
+name: vt
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - vt
