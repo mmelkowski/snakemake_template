@@ -7,16 +7,18 @@ import subprocess
 
 min_version("6.0.5")
 
-#### setup config #####
+#### setup input #####
 configfile: "../config/config.yaml"
-validate(config, "schemas/config.schema.yaml")
+validate(config, "schemas/config.schema.json")
 
-##### load rules #####
+##### load pipeline rules #####
 include: "rules/common.smk"
-include: "rules/modules.smk"
 include: "rules/reporting.smk"
 
-# target_var
+##### load modules rules #####
+include: "rules/modules.smk"
+
+# target_var (from common.smk)
 autodetect_output = get_pipeline_output()
 ##### Targets #####
 rule all:
