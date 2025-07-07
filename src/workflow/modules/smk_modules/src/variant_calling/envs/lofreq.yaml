@@ -1,0 +1,6 @@
+name: lofreq
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - lofreq
