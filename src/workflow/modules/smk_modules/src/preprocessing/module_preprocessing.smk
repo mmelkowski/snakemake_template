@@ -3,10 +3,10 @@ rule fastp:
         R1=lambda wildcards: f"local_data/{wildcards.sample}_R1.fastq.gz",
         R2=lambda wildcards: f"local_data/{wildcards.sample}_R2.fastq.gz"
     output:
-        R1="results/{sample}/fastp/{sample}_R1.trimmed.fastq.gz",
-        R2="results/{sample}/fastp/{sample}_R2.trimmed.fastq.gz",
-        json="results/{sample}/fastp/{sample}.fastp.json",
-        html="results/{sample}/fastp/{sample}.fastp.html"
+        R1="results/{sample}/preprocessing/fastp/{sample}_R1.trimmed.fastq.gz",
+        R2="results/{sample}/preprocessing/fastp/{sample}_R2.trimmed.fastq.gz",
+        json="results/{sample}/preprocessing/fastp/{sample}.fastp.json",
+        html="results/{sample}/preprocessing/fastp/{sample}.fastp.html"
     params:
         extra=""
     threads: 4
@@ -25,7 +25,7 @@ rule chopper:
     input:
         lambda wildcards: f"local_data/{wildcards.sample}.fastq.gz"
     output:
-        "results/{sample}/chopper/{sample}.chopped.fastq.gz"
+        "results/{sample}/preprocessing/chopper/{sample}.chopped.fastq.gz"
     params:
         extra=""
     threads: 2
