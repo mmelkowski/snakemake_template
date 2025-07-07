@@ -15,8 +15,8 @@ threads_low = max(1, int(workflow.cores / 4))
 rule bwamem2:
     input:
         ref="reference/reference.fasta",
-        reads1="fastp/{sample}_R1.trimmed.fastq.gz",
-        reads2="fastp/{sample}_R2.trimmed.fastq.gz"
+        reads1="preprocessing/fastp/{sample}_R1.trimmed.fastq.gz",
+        reads2="preprocessing/fastp/{sample}_R2.trimmed.fastq.gz"
     output:
         bam="bwa_mem2/{sample}.bam"
     threads: threads_high
@@ -31,8 +31,8 @@ rule bwamem2:
 rule bowtie2:
     input:
         ref="reference/reference.fasta",
-        reads1="fastp/{sample}_R1.trimmed.fastq.gz",
-        reads2="fastp/{sample}_R2.trimmed.fastq.gz"
+        reads1="preprocessing/fastp/{sample}_R1.trimmed.fastq.gz",
+        reads2="preprocessing/fastp/{sample}_R2.trimmed.fastq.gz"
     output:
         bam="bowtie2/{sample}.bam"
     threads: threads_high
@@ -47,15 +47,14 @@ rule bowtie2:
 rule minimap2:
     input:
         ref="reference/reference.fasta",
-        reads1="data/{sample}_R1.fastq.gz",
-        reads2="data/{sample}_R2.fastq.gz"
+        reads="preprocessing/chopper/{sample}.chopped.fastq.gz"
     output:
         bam="minimap2/{sample}.bam"
     threads: threads_high
     conda: f"{config['envs']}/minimap2.yaml"
     shell:
         """
-        minimap2 -ax sr -t {threads} {input.ref} {input.reads1} {input.reads2} | \
+        minimap2 -ax sr -t {threads} {input.ref} {input.reads} | \
         samtools view -bS - > {output.bam}
         """
 
