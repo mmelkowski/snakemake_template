@@ -22,6 +22,19 @@ def load_tsv(myfile):
 
 
 def determine_platform(row):
+    """
+    Determines the sequencing platform based on the presence of specific columns in a row.
+
+    Checks for Illumina and Oxford Nanopore data by inspecting the 'fq1', 'raw_ont', and 'ont' fields.
+    Returns a string indicating the platform type: 'ill' for Illumina, 'ont' for Oxford Nanopore,
+    'hybrid' if both are present, or None if neither is found.
+
+    Args:
+        row (dict or pandas.Series): A dictionary-like object containing sequencing data fields.
+
+    Returns:
+        str or None: 'ill', 'ont', 'hybrid', or None depending on the detected platform.
+    """
     has_ill = pd.notnull(row.get("fq1"))
     has_ont = pd.notnull(row.get("raw_ont")) or pd.notnull(row.get("ont"))
     if has_ill and has_ont:
